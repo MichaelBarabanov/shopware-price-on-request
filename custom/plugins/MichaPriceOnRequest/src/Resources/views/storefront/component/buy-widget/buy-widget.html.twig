@@ -1,0 +1,20 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget.html.twig' %}
+
+{% block buy_widget_price %}
+    {% set por = page.extensions.michaPriceOnRequest %}
+    {% if por and por.active and por.hidePrice %}
+        <div class="micha-price-on-request" style="margin-bottom: 1rem;">
+            <p><strong>{{ 'micha-price-on-request.priceHiddenText'|trans }}</strong></p>
+            <button
+                class="btn btn-primary micha-por-button"
+                data-micha-price-on-request="true"
+                data-product-id="{{ page.product.id }}"
+                data-product-name="{{ page.product.name }}"
+                data-recipient="{{ por.recipientEmail }}">
+                {{ por.buttonLabel ?: 'Preis anfragen' }}
+            </button>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

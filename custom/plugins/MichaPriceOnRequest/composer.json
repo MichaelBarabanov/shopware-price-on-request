@@ -1,0 +1,27 @@
+{
+    "name": "micha-price-on-request/micha-price-on-request",
+    "description": "micha-price-on-request/micha-price-on-request",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "MichaPriceOnRequest\\MichaPriceOnRequest",
+        "label": {
+            "de-DE": "Skeleton plugin",
+            "en-GB": "Skeleton plugin"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MichaPriceOnRequest\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MichaPriceOnRequest\\Tests\\": "tests/"
+        }
+    }
+}

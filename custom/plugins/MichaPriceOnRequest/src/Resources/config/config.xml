@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Price on Request – Einstellungen</title>
+        <title lang="en-GB">Price on Request – Settings</title>
+
+        <input-field type="text">
+            <name>recipientEmail</name>
+            <label>Empfänger E-Mail</label>
+            <label lang="en-GB">Recipient Email</label>
+            <helpText>An diese Adresse werden Preisanfragen geschickt</helpText>
+            <required>true</required>
+        </input-field>
+
+        <input-field type="text">
+            <name>buttonLabel</name>
+            <label>Button-Text</label>
+            <label lang="en-GB">Button Label</label>
+            <defaultValue>Preis anfragen</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>hidePrice</name>
+            <label>Preis ausblenden</label>
+            <label lang="en-GB">Hide Price</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+    </card>
+
+</config>
