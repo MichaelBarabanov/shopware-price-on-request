@@ -2,7 +2,7 @@
 
 namespace MichaPriceOnRequest\Storefront\Controller;
 
-use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
+use MichaPriceOnRequest\Service\RateLimiter;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
@@ -19,7 +19,8 @@ class ExampleController extends StorefrontController
 {
     public function __construct(
         private readonly SystemConfigService $systemConfigService,
-        private readonly MailerInterface $mailer
+        private readonly MailerInterface $mailer,
+        private readonly RateLimiter $rateLimiter
     ) {}
 
     #[Route(
@@ -30,8 +31,41 @@ class ExampleController extends StorefrontController
     )]
     public function send(Request $request, SalesChannelContext $context): JsonResponse
     {
+        $salesChannelId = $context->getSalesChannelId();
         $data = json_decode($request->getContent(), true);
 
+        // Honeypot check
+        if (!empty($data['website'])) {
+            return new JsonResponse(['success' => true]);
+        }
+
+        // Spam-Schutz
+        $spamProtectionEnabled = $this->systemConfigService->getBool(
+            'MichaPriceOnRequest.config.spamProtectionEnabled',
+            $salesChannelId
+        );
+
+        if ($spamProtectionEnabled) {
+            $maxRequests = $this->systemConfigService->getInt(
+                'MichaPriceOnRequest.config.spamMaxRequests',
+                $salesChannelId
+            ) ?: 3;
+
+            if ($maxRequests < 1) {
+                $maxRequests = 1;
+            }
+
+            $ip = $request->getClientIp() ?? 'unknown';
+
+            if (!$this->rateLimiter->isAllowed($ip, $maxRequests)) {
+                return new JsonResponse([
+                    'success' => false,
+                    'error' => 'Zu viele Anfragen. Bitte versuche es später erneut.'
+                ], 429);
+            }
+        }
+
+        // Input validieren
         $name        = strip_tags($data['name'] ?? '');
         $email       = strip_tags($data['email'] ?? '');
         $message     = strip_tags($data['message'] ?? '');
@@ -39,18 +73,19 @@ class ExampleController extends StorefrontController
         $productId   = strip_tags($data['productId'] ?? '');
 
         if (!$name || !$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return new JsonResponse(['success' => false, 'error' => 'Invalid input']);
+            return new JsonResponse(['success' => false, 'error' => 'Ungültige Eingabe']);
         }
 
         $recipient = $this->systemConfigService->getString(
             'MichaPriceOnRequest.config.recipientEmail',
-            $context->getSalesChannelId()
+            $salesChannelId
         );
 
         if (!$recipient) {
-            return new JsonResponse(['success' => false, 'error' => 'No recipient configured']);
+            return new JsonResponse(['success' => false, 'error' => 'Kein Empfänger konfiguriert']);
         }
 
+        // Anfrage-Mail an Shop-Betreiber
         $body = "Neue Preisanfrage\n\n"
             . "Produkt: {$productName} (ID: {$productId})\n"
             . "Name: {$name}\n"
@@ -65,9 +100,45 @@ class ExampleController extends StorefrontController
 
         try {
             $this->mailer->send($mail);
-            return new JsonResponse(['success' => true]);
         } catch (\Throwable $e) {
             return new JsonResponse(['success' => false, 'error' => $e->getMessage()]);
         }
+
+        // Bestätigungsmail an Kunden
+        $confirmationEnabled = $this->systemConfigService->getBool(
+            'MichaPriceOnRequest.config.confirmationEmailEnabled',
+            $salesChannelId
+        );
+
+        if ($confirmationEnabled) {
+            $subject = $this->systemConfigService->getString(
+                'MichaPriceOnRequest.config.confirmationEmailSubject',
+                $salesChannelId
+            ) ?: 'Ihre Preisanfrage ist eingegangen';
+
+            $confirmationText = $this->systemConfigService->getString(
+                'MichaPriceOnRequest.config.confirmationEmailText',
+                $salesChannelId
+            ) ?: 'Vielen Dank für Ihre Anfrage. Wir melden uns so schnell wie möglich bei Ihnen.';
+
+            $confirmationBody = "{$confirmationText}\n\n"
+                . "Ihre Anfrage:\n"
+                . "Produkt: {$productName}\n"
+                . "Nachricht: {$message}";
+
+            $confirmationMail = (new Email())
+                ->from($recipient)
+                ->to($email)
+                ->subject($subject)
+                ->text($confirmationBody);
+
+            try {
+                $this->mailer->send($confirmationMail);
+            } catch (\Throwable $e) {
+                // Bestätigungsmail-Fehler ignorieren – Hauptanfrage war erfolgreich
+            }
+        }
+
+        return new JsonResponse(['success' => true]);
     }
 }

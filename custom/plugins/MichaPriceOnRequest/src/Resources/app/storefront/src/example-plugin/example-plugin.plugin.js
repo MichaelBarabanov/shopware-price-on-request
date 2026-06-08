@@ -43,6 +43,10 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
                         <label style="display: block; margin-bottom: .25rem;">Nachricht (optional)</label>
                         <textarea id="micha-por-message" rows="3" style="width: 100%; padding: .5rem; border: 1px solid #ccc; border-radius: 4px;"></textarea>
                     </div>
+                    <div style="display: none;" aria-hidden="true">
+                        <label>Website</label>
+                        <input id="micha-por-honeypot" type="text" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                     <button class="micha-por-submit btn btn-primary" style="width: 100%;">
                         Anfrage senden
                     </button>
@@ -64,6 +68,7 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
         const name = document.getElementById('micha-por-name').value.trim();
         const email = document.getElementById('micha-por-email').value.trim();
         const message = document.getElementById('micha-por-message').value.trim();
+        const honeypot = document.getElementById('micha-por-honeypot').value;
         const feedback = modal.querySelector('.micha-por-feedback');
 
         if (!name || !email) {
@@ -81,7 +86,8 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
                 productName: this._productName,
                 name,
                 email,
-                message
+                message,
+                website: honeypot
             })
         })
         .then(r => r.json())
@@ -93,7 +99,7 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
                 modal.querySelector('.micha-por-submit').disabled = true;
             } else {
                 feedback.style.color = 'red';
-                feedback.textContent = 'Fehler beim Senden. Bitte versuche es erneut.';
+                feedback.textContent = data.error || 'Fehler beim Senden. Bitte versuche es erneut.';
             }
         })
         .catch(() => {

@@ -3,8 +3,8 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
 
     <card>
-        <title>Price on Request – Einstellungen</title>
-        <title lang="en-GB">Price on Request – Settings</title>
+        <title>Allgemein</title>
+        <title lang="en-GB">General</title>
 
         <input-field type="text">
             <name>recipientEmail</name>
@@ -26,6 +26,55 @@
             <label>Preis ausblenden</label>
             <label lang="en-GB">Hide Price</label>
             <defaultValue>true</defaultValue>
+        </input-field>
+
+    </card>
+
+    <card>
+        <title>Spam-Schutz</title>
+        <title lang="en-GB">Spam Protection</title>
+
+        <input-field type="bool">
+            <name>spamProtectionEnabled</name>
+            <label>Spam-Schutz aktivieren</label>
+            <label lang="en-GB">Enable Spam Protection</label>
+            <helpText>Begrenzt die Anzahl der Anfragen pro IP-Adresse</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>spamMaxRequests</name>
+            <label>Max. Anfragen pro Stunde</label>
+            <label lang="en-GB">Max. requests per hour</label>
+            <helpText>Wie viele Anfragen eine IP-Adresse pro Stunde senden darf</helpText>
+            <defaultValue>3</defaultValue>
+        </input-field>
+
+    </card>
+
+    <card>
+        <title>Bestätigungsmail</title>
+        <title lang="en-GB">Confirmation Email</title>
+
+        <input-field type="bool">
+            <name>confirmationEmailEnabled</name>
+            <label>Bestätigungsmail an Kunden senden</label>
+            <label lang="en-GB">Send confirmation email to customer</label>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>confirmationEmailSubject</name>
+            <label>Betreff der Bestätigungsmail</label>
+            <label lang="en-GB">Confirmation email subject</label>
+            <defaultValue>Ihre Preisanfrage ist eingegangen</defaultValue>
+        </input-field>
+
+        <input-field type="textarea">
+            <name>confirmationEmailText</name>
+            <label>Text der Bestätigungsmail</label>
+            <label lang="en-GB">Confirmation email text</label>
+            <defaultValue>Vielen Dank für Ihre Anfrage. Wir melden uns so schnell wie möglich bei Ihnen.</defaultValue>
         </input-field>
 
     </card>
