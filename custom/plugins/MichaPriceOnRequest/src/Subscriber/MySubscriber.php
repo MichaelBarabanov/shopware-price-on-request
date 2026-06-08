@@ -25,17 +25,19 @@ class MySubscriber implements EventSubscriberInterface
         $salesChannelId = $event->getSalesChannelContext()->getSalesChannelId();
         $product = $event->getPage()->getProduct();
 
-        $hidePrice = $this->systemConfigService->getBool(
-            'MichaPriceOnRequest.config.hidePrice',
+        $mode = $this->systemConfigService->getString(
+            'MichaPriceOnRequest.config.mode',
             $salesChannelId
-        );
+        ) ?: 'selected';
 
-        // Custom Field pro Produkt prüfen
-        $customFields = $product->getCustomFields();
-        $productActive = $customFields['micha_por_active'] ?? false;
+        $customFields = $product->getCustomFields() ?? [];
+        $productActive = (bool) ($customFields['micha_por_active'] ?? false);
 
-        // Aktiv wenn: global hidePrice AN oder Custom Field am Produkt AN
-        $active = $hidePrice || $productActive;
+        $active = match($mode) {
+            'all'      => true,
+            'selected' => $productActive,
+            default    => false,
+        };
 
         $config = [
             'active'         => $active,

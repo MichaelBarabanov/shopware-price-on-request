@@ -3,14 +3,15 @@
 {% block buy_widget_price %}
     {% set por = page.extensions.michaPriceOnRequest %}
     {% if por and por.active and por.hidePrice %}
+        {% set productName = page.product.translated.name ?: page.product.name ?: '' %}
         <div class="micha-price-on-request" style="margin-bottom: 1rem;">
             <p><strong>{{ 'micha-price-on-request.priceHiddenText'|trans }}</strong></p>
             <button
                 class="btn btn-primary micha-por-button"
                 data-micha-price-on-request="true"
                 data-product-id="{{ page.product.id }}"
-                data-product-name="{{ page.product.name }}"
-                data-recipient="{{ por.recipientEmail }}">
+                data-product-name="{{ productName|e('html_attr') }}"
+                data-recipient="{{ por.recipientEmail|e('html_attr') }}">
                 {{ por.buttonLabel ?: 'Preis anfragen' }}
             </button>
         </div>

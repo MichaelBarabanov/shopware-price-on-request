@@ -21,11 +21,25 @@
             <defaultValue>Preis anfragen</defaultValue>
         </input-field>
 
-        <input-field type="bool">
-            <name>hidePrice</name>
-            <label>Preis ausblenden</label>
-            <label lang="en-GB">Hide Price</label>
-            <defaultValue>true</defaultValue>
+        <input-field type="single-select">
+            <name>mode</name>
+            <label>Modus</label>
+            <label lang="en-GB">Mode</label>
+            <helpText>Alle Produkte: gilt für den gesamten Shop. Nur markierte: nur Produkte mit aktiviertem Custom Field</helpText>
+            <helpText lang="en-GB">All products: applies shop-wide. Selected only: products with activated custom field only</helpText>
+            <options>
+                <option>
+                    <id>all</id>
+                    <name>Alle Produkte</name>
+                    <name lang="en-GB">All products</name>
+                </option>
+                <option>
+                    <id>selected</id>
+                    <name>Nur markierte Produkte</name>
+                    <name lang="en-GB">Selected products only</name>
+                </option>
+            </options>
+            <defaultValue>selected</defaultValue>
         </input-field>
 
     </card>

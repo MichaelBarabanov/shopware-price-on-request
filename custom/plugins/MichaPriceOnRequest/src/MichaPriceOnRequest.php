@@ -42,7 +42,7 @@ class MichaPriceOnRequest extends Plugin
         $customFieldSetRepository->upsert([
             [
                 'name'         => 'micha_price_on_request',
-                'config'       => [
+                'config' => [
                     'label' => [
                         'de-DE' => 'Preis auf Anfrage',
                         'en-GB' => 'Price on Request',
