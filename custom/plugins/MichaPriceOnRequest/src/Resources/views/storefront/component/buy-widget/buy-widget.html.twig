@@ -19,7 +19,7 @@
     {% endif %}
 {% endblock %}
 
-{% block buy_widget_form_inner %}
+{% block buy_widget_buy_button_container %}
     {% set por = page.extensions.michaPriceOnRequest %}
     {% if por and por.active and por.hideAddToCart %}
     {% else %}

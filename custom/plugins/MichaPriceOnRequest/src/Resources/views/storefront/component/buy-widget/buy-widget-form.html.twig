@@ -1,0 +1,9 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget-form.html.twig' %}
+
+{% block buy_widget_buy_button_container %}
+    {% set por = page.extensions.michaPriceOnRequest %}
+    {% if por and por.active and por.hideAddToCart %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
