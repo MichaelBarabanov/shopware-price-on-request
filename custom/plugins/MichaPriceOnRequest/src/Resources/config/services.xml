@@ -13,6 +13,7 @@
         <service id="MichaPriceOnRequest\Storefront\Controller\ExampleController" public="true">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="mailer.mailer"/>
+            <argument type="service" id="MichaPriceOnRequest\Service\RateLimiter"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

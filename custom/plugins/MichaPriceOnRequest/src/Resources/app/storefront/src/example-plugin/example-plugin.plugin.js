@@ -6,6 +6,7 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
         this._productId = this.el.dataset.productId;
         this._productName = this.el.dataset.productName;
         this._recipient = this.el.dataset.recipient;
+        this._csrfToken = this.el.dataset.csrfToken || '';
 
         this._button.addEventListener('click', this._openModal.bind(this));
     }
@@ -107,7 +108,8 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
                 name,
                 email,
                 message,
-                website: honeypot
+                website:    honeypot,
+                _csrf_token: this._csrfToken
             })
         })
         .then(r => r.json())

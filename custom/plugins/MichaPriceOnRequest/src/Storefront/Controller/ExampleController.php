@@ -34,12 +34,10 @@ class ExampleController extends StorefrontController
         $salesChannelId = $context->getSalesChannelId();
         $data = json_decode($request->getContent(), true);
 
-        // Honeypot check
         if (!empty($data['website'])) {
             return new JsonResponse(['success' => true]);
         }
 
-        // Spam-Schutz
         $spamProtectionEnabled = $this->systemConfigService->getBool(
             'MichaPriceOnRequest.config.spamProtectionEnabled',
             $salesChannelId
@@ -60,12 +58,11 @@ class ExampleController extends StorefrontController
             if (!$this->rateLimiter->isAllowed($ip, $maxRequests)) {
                 return new JsonResponse([
                     'success' => false,
-                    'error' => 'Zu viele Anfragen. Bitte versuche es später erneut.'
+                    'error'   => 'Zu viele Anfragen. Bitte versuche es später erneut.'
                 ], 429);
             }
         }
 
-        // Input validieren
         $name        = strip_tags($data['name'] ?? '');
         $email       = strip_tags($data['email'] ?? '');
         $message     = strip_tags($data['message'] ?? '');
@@ -85,7 +82,6 @@ class ExampleController extends StorefrontController
             return new JsonResponse(['success' => false, 'error' => 'Kein Empfänger konfiguriert']);
         }
 
-        // Anfrage-Mail an Shop-Betreiber
         $body = "Neue Preisanfrage\n\n"
             . "Produkt: {$productName} (ID: {$productId})\n"
             . "Name: {$name}\n"
@@ -104,7 +100,6 @@ class ExampleController extends StorefrontController
             return new JsonResponse(['success' => false, 'error' => $e->getMessage()]);
         }
 
-        // Bestätigungsmail an Kunden
         $confirmationEnabled = $this->systemConfigService->getBool(
             'MichaPriceOnRequest.config.confirmationEmailEnabled',
             $salesChannelId
@@ -135,7 +130,7 @@ class ExampleController extends StorefrontController
             try {
                 $this->mailer->send($confirmationMail);
             } catch (\Throwable $e) {
-                // Bestätigungsmail-Fehler ignorieren – Hauptanfrage war erfolgreich
+                // Bestätigungsmail-Fehler ignorieren
             }
         }
 
