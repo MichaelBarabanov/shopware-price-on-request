@@ -1,14 +1,16 @@
 # Changelog
 
-## 1.0.0 - 2026-06-08
+## 1.0.0 - 2026-06-09
 
 ### Added
-- Initial release
-- Hide product price and show configurable inquiry button
-- Admin configuration: recipient email, button label, mode (all products / selected only)
-- Per-product activation via custom field
-- Inquiry form modal with name, email and message fields
+- Hide product price on PDP and category listing
+- Configurable inquiry button (label, mode)
+- Modal form with name, email, message and GDPR consent
 - Email notification to shop owner
-- Optional confirmation email to customer (configurable subject and text)
-- Spam protection: honeypot field and rate limiting per IP
+- Optional confirmation email to customer
+- Per-product activation via custom field
+- Hide "Add to cart" button (configurable)
+- Spam protection: honeypot + IP rate limiting
+- Admin config with 4 sections: General, Button Design, Spam Protection, Confirmation Email
 - Multi-language support (de-DE, en-GB)
+- Sales channel aware configuration
