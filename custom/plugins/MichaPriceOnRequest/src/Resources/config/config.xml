@@ -25,8 +25,6 @@
             <name>mode</name>
             <label>Modus</label>
             <label lang="en-GB">Mode</label>
-            <helpText>Alle Produkte: gilt für den gesamten Shop. Nur markierte: nur Produkte mit aktiviertem Custom Field</helpText>
-            <helpText lang="en-GB">All products: applies shop-wide. Selected only: products with activated custom field only</helpText>
             <options>
                 <option>
                     <id>all</id>
@@ -42,6 +40,49 @@
             <defaultValue>selected</defaultValue>
         </input-field>
 
+        <input-field type="bool">
+            <name>hideAddToCart</name>
+            <label>„In den Warenkorb" ausblenden</label>
+            <label lang="en-GB">Hide „Add to cart" button</label>
+            <helpText>Empfohlen: Produkte ohne Preis sollten nicht in den Warenkorb legbar sein, da der Checkout ohne Preis keinen Sinn ergibt.</helpText>
+            <helpText lang="en-GB">Recommended: Products without a price should not be purchasable, as checkout without a price makes no sense.</helpText>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
+    </card>
+
+    <card>
+        <title>Button-Design</title>
+        <title lang="en-GB">Button Design</title>
+
+        <input-field type="text">
+            <name>buttonBgColor</name>
+            <label>Hintergrundfarbe (HEX)</label>
+            <label lang="en-GB">Background color (HEX)</label>
+            <defaultValue>#0d6efd</defaultValue>
+        </input-field>
+
+        <input-field type="text">
+            <name>buttonTextColor</name>
+            <label>Textfarbe (HEX)</label>
+            <label lang="en-GB">Text color (HEX)</label>
+            <defaultValue>#ffffff</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>buttonFontSize</name>
+            <label>Schriftgröße (px)</label>
+            <label lang="en-GB">Font size (px)</label>
+            <defaultValue>16</defaultValue>
+        </input-field>
+
+        <input-field type="bool">
+            <name>buttonRounded</name>
+            <label>Abgerundete Ecken</label>
+            <label lang="en-GB">Rounded corners</label>
+            <defaultValue>true</defaultValue>
+        </input-field>
+
     </card>
 
     <card>
@@ -52,7 +93,6 @@
             <name>spamProtectionEnabled</name>
             <label>Spam-Schutz aktivieren</label>
             <label lang="en-GB">Enable Spam Protection</label>
-            <helpText>Begrenzt die Anzahl der Anfragen pro IP-Adresse</helpText>
             <defaultValue>true</defaultValue>
         </input-field>
 
@@ -60,7 +100,6 @@
             <name>spamMaxRequests</name>
             <label>Max. Anfragen pro Stunde</label>
             <label lang="en-GB">Max. requests per hour</label>
-            <helpText>Wie viele Anfragen eine IP-Adresse pro Stunde senden darf</helpText>
             <defaultValue>3</defaultValue>
         </input-field>
 
