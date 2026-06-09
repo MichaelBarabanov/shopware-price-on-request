@@ -17,24 +17,40 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
         const modal = document.createElement('div');
         modal.id = 'micha-por-modal';
         modal.innerHTML = `
-            <div class="micha-por-overlay">
-                <div class="micha-por-dialog">
-                    <button class="micha-por-close" aria-label="Schließen">&times;</button>
-                    <h3>Preis anfragen</h3>
-                    <p style="color:#6c757d; margin-bottom:1rem;">${this._productName}</p>
+            <div class="micha-por-overlay" style="
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); z-index: 9999;
+                display: flex; align-items: center; justify-content: center;">
+                <div class="micha-por-dialog" style="
+                    background: white; padding: 2rem; border-radius: 8px;
+                    width: 100%; max-width: 480px; position: relative;
+                    box-shadow: 0 4px 24px rgba(0,0,0,.15); margin: 1rem;">
+                    <button class="micha-por-close" style="
+                        position: absolute; top: 1rem; right: 1rem;
+                        background: none; border: none; font-size: 1.5rem;
+                        cursor: pointer; line-height: 1; color: #6c757d;"
+                        aria-label="Schließen">&times;</button>
+                    <h3 style="margin-bottom: .5rem; font-size: 1.25rem; font-weight: 600;">Preis anfragen</h3>
+                    <p style="margin-bottom: 1rem; color: #6c757d;">${this._productName}</p>
 
-                    <label>Ihr Name *</label>
-                    <input id="micha-por-name" type="text" placeholder="Max Mustermann">
+                    <label style="display:block; margin-bottom:.25rem; font-size:.875rem; font-weight:500;">Ihr Name *</label>
+                    <input id="micha-por-name" type="text" placeholder="Max Mustermann" style="
+                        width:100%; padding:.5rem .75rem; border:1px solid #dee2e6;
+                        border-radius:4px; font-size:1rem; margin-bottom:1rem; box-sizing:border-box;">
 
-                    <label>Ihre E-Mail *</label>
-                    <input id="micha-por-email" type="email" placeholder="max@beispiel.de">
+                    <label style="display:block; margin-bottom:.25rem; font-size:.875rem; font-weight:500;">Ihre E-Mail *</label>
+                    <input id="micha-por-email" type="email" placeholder="max@beispiel.de" style="
+                        width:100%; padding:.5rem .75rem; border:1px solid #dee2e6;
+                        border-radius:4px; font-size:1rem; margin-bottom:1rem; box-sizing:border-box;">
 
-                    <label>Nachricht (optional)</label>
-                    <textarea id="micha-por-message" rows="3" placeholder="Ihre Nachricht..."></textarea>
+                    <label style="display:block; margin-bottom:.25rem; font-size:.875rem; font-weight:500;">Nachricht (optional)</label>
+                    <textarea id="micha-por-message" rows="3" placeholder="Ihre Nachricht..." style="
+                        width:100%; padding:.5rem .75rem; border:1px solid #dee2e6;
+                        border-radius:4px; font-size:1rem; margin-bottom:1rem; box-sizing:border-box;"></textarea>
 
-                    <div class="micha-por-privacy">
-                        <input id="micha-por-privacy" type="checkbox">
-                        <label for="micha-por-privacy" style="margin-bottom:0;">
+                    <div style="display:flex; align-items:flex-start; gap:.5rem; margin-bottom:1rem;">
+                        <input id="micha-por-privacy" type="checkbox" style="margin-top:.2rem; flex-shrink:0;">
+                        <label for="micha-por-privacy" style="font-size:.875rem; margin-bottom:0;">
                             Ich habe die <a href="/privacy" target="_blank">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu. *
                         </label>
                     </div>
@@ -43,8 +59,10 @@ export default class MichaPriceOnRequestPlugin extends Plugin {
                         <input id="micha-por-honeypot" type="text" name="website" tabindex="-1" autocomplete="off">
                     </div>
 
-                    <button class="micha-por-submit">Anfrage senden</button>
-                    <div class="micha-por-feedback" style="display:none;"></div>
+                    <button class="micha-por-submit btn btn-primary" style="width:100%; padding:.75rem; font-size:1rem;">
+                        Anfrage senden
+                    </button>
+                    <div class="micha-por-feedback" style="display:none; margin-top:.75rem; font-size:.875rem; font-weight:500;"></div>
                 </div>
             </div>
         `;

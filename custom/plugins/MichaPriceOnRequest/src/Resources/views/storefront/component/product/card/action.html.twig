@@ -1,0 +1,34 @@
+{% sw_extends '@Storefront/storefront/component/product/card/action.html.twig' %}
+
+{% block component_product_box_action_buy_button %}
+    {% set customFields = product.customFields ?? {} %}
+    {% set productActive = customFields['micha_por_active'] ?? false %}
+    {% set mode = config('MichaPriceOnRequest.config.mode') %}
+    {% set active = (mode == 'all') or (mode == 'selected' and productActive) %}
+
+    {% if active %}
+        <button
+            type="button"
+            class="btn btn-primary micha-por-button"
+            style="width:100%;"
+            data-micha-price-on-request="true"
+            data-product-id="{{ product.id }}"
+            data-product-name="{{ product.translated.name ?: product.name ?: '' }}"
+            data-recipient="{{ config('MichaPriceOnRequest.config.recipientEmail') }}">
+            {{ config('MichaPriceOnRequest.config.buttonLabel') ?: 'Preis anfragen' }}
+        </button>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block component_product_box_action_buy_info %}
+    {% set customFields = product.customFields ?? {} %}
+    {% set productActive = customFields['micha_por_active'] ?? false %}
+    {% set mode = config('MichaPriceOnRequest.config.mode') %}
+    {% set active = (mode == 'all') or (mode == 'selected' and productActive) %}
+
+    {% if not active %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
