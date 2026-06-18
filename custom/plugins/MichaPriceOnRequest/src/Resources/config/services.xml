@@ -5,23 +5,14 @@
 
     <services>
 
-        <service id="MichaPriceOnRequest\Subscriber\MySubscriber">
+        <service id="MichaPriceOnRequest\Subscriber\PriceOnRequestSubscriber">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 
-        <service id="MichaPriceOnRequest\Storefront\Controller\ExampleController" public="true">
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="mailer.mailer"/>
-            <argument type="service" id="MichaPriceOnRequest\Service\RateLimiter"/>
-            <call method="setContainer">
-                <argument type="service" id="service_container"/>
-            </call>
-        </service>
-
         <service id="MichaPriceOnRequest\Service\RateLimiter"/>
 
-        <service id="MichaPriceOnRequest\Storefront\Controller\ExampleController" public="true">
+        <service id="MichaPriceOnRequest\Storefront\Controller\PriceOnRequestController" public="true">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
             <argument type="service" id="mailer.mailer"/>
             <argument type="service" id="MichaPriceOnRequest\Service\RateLimiter"/>

@@ -15,7 +15,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(defaults: [PlatformRequest::ATTRIBUTE_ROUTE_SCOPE => [StorefrontRouteScope::ID]])]
-class ExampleController extends StorefrontController
+class PriceOnRequestController extends StorefrontController
 {
     public function __construct(
         private readonly SystemConfigService $systemConfigService,
