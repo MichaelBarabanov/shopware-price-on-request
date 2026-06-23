@@ -11,8 +11,7 @@
                 data-micha-price-on-request="true"
                 data-product-id="{{ page.product.id }}"
                 data-product-name="{{ page.product.translated.name ?: page.product.name ?: '' }}"
-                data-recipient="{{ por.recipientEmail|e('html_attr') }}"
-                data-csrf-token="{{ csrf_token('micha-price-on-request') }}">
+                data-recipient="{{ por.recipientEmail|e('html_attr') }}">
                 {{ por.buttonLabel ?: 'Preis anfragen' }}
             </button>
         </div>
