@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{% block component_product_box_price %}
+    {% set customFields = product.customFields ?? {} %}
+    {% set productActive = customFields['micha_por_active'] ?? false %}
+    {% set mode = config('MichaPriceOnRequest.config.mode') %}
+    {% set active = (mode == 'all') or (mode == 'selected' and productActive) %}
+
+    {% if not active %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}

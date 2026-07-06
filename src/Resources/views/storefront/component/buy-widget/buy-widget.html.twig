@@ -1,0 +1,29 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget.html.twig' %}
+
+{% block buy_widget_price %}
+    {% set por = page.extensions.michaPriceOnRequest %}
+    {% if por and por.active and por.hidePrice %}
+        <div class="micha-price-on-request" style="margin-bottom: 1rem;">
+            <button
+                type="button"
+                class="btn btn-primary micha-por-button"
+                style="width:100%;"
+                data-micha-price-on-request="true"
+                data-product-id="{{ page.product.id }}"
+                data-product-name="{{ page.product.translated.name ?: page.product.name ?: '' }}"
+                data-recipient="{{ por.recipientEmail|e('html_attr') }}">
+                {{ por.buttonLabel ?: 'Preis anfragen' }}
+            </button>
+        </div>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block buy_widget_buy_button_container %}
+    {% set por = page.extensions.michaPriceOnRequest %}
+    {% if por and por.active and por.hideAddToCart %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
